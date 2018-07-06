@@ -18,8 +18,9 @@ dockerhub_version=latest
 # openshift_pg_emptydir=True
 
 # Kubernetes Install
-# kubernetes_context=test-cluster
-# kubernetes_namespace=awx
+kubernetes_context=unil-default
+kubernetes_namespace=awx
+#openshift_pg_pvc_name=awx-postgresql
 
 # Kubernetes and Openshift Install Resource Requests
 # This is the request value for a pod's "task" container, which is the container
@@ -39,7 +40,7 @@ host_port=80
 # use_docker_compose=false
 # The docker_compose.yml file will be created in this directory
 # The name of the directory (here "awx") will be the prefix of the docker containers
-docker_compose_dir=/var/lib/awx
+#docker_compose_dir=/var/lib/awx
 
 # Required for Openshift when building the image on your own
 # Optional for Openshift if using Dockerhub or another prebuilt registry
@@ -61,9 +62,10 @@ docker_compose_dir=/var/lib/awx
 # a new postgres service will be created
 # pg_hostname=postgresql
 pg_username=awx
-pg_password=awxpass
+pg_password={{ vault_pg_password }}
 pg_database=awx
 pg_port=5432
+pg_volume_capacity=10
 
 # Use a local distribution build container image for building the AWX package
 # This is helpful if you don't want to bother installing the build-time dependencies as
@@ -78,13 +80,13 @@ pg_port=5432
 
 # This will create or update a default admin (superuser) account in AWX, if not provided
 # then these default values are used
-# default_admin_user=admin
-# default_admin_password=password
+default_admin_user=admin
+default_admin_password="{{ vault_default_admin_password }}"
 
 # AWX Secret key
 # It's *very* important that this stay the same between upgrades or you will lose the ability to decrypt
 # your credentials
-secret_key=awxsecret
+secret_key="{{ vault_secret_key }}"
 
 # Build AWX with official logos
 # Requires cloning awx-logos repo into the project root.

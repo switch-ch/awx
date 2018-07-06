@@ -121,3 +121,4 @@ venv/*
 use_dev_supervisor.txt
 
 .idea/*
+vault_password
